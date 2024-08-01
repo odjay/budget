@@ -9,13 +9,13 @@
             font-family: Arial, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f0f8ff; /* Bleu clair */
+            background-color: #f0f8ff;
         }
         h1, h2 {
-            color: #0066cc; /* Bleu corporate */
+            color: #0066cc;
         }
         .card {
             background-color: white;
@@ -28,13 +28,20 @@
         .card:hover {
             transform: translateY(-5px);
         }
-        #budget-chart {
-            width: 100%;
-            height: 300px;
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
         }
-        .book-reference {
-            font-style: italic;
-            color: #0066cc;
+        .chart {
+            width: 48%;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .chart {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -48,18 +55,23 @@
 
     <div class="card">
         <h2>Analysez vos dépenses</h2>
-        <p>Examinez toutes vos dépenses du dernier mois et catégorisez-les. Voici un exemple de répartition :</p>
-        <div id="budget-chart"></div>
+        <p>Examinez toutes vos dépenses du dernier mois et catégorisez-les. Voici des exemples de répartition :</p>
+        <div class="chart-container">
+            <div class="chart" id="expenses-chart"></div>
+            <div class="chart" id="savings-chart"></div>
+        </div>
     </div>
 
     <div class="card">
         <h2>Automatisez vos paiements</h2>
         <p>L'automatisation des paiements peut simplifier le remboursement de vos dettes et éviter les pénalités coûteuses[1].</p>
+        <div class="chart" id="debt-reduction-chart"></div>
     </div>
 
     <div class="card">
-        <h2>Réfléchissez avant d'acheter</h2>
-        <p>Posez-vous des questions avant chaque achat pour éviter les dépenses impulsives[1].</p>
+        <h2>Habitudes de consommation</h2>
+        <p>Réfléchissez avant chaque achat pour éviter les dépenses impulsives. Voici un aperçu des habitudes de consommation typiques :</p>
+        <div class="chart" id="consumption-habits-chart"></div>
     </div>
 
     <div class="card">
@@ -72,38 +84,80 @@
         <p>Choisissez de dépenser moins que ce que vous gagnez pour économiser plus chaque mois[1].</p>
     </div>
 
-    <div class="card">
-        <h2>Références de livres</h2>
-        <ul>
-            <li class="book-reference">"L'homme le plus riche de Babylone" par George S. Clason</li>
-            <li class="book-reference">"Père riche, Père pauvre" par Robert Kiyosaki</li>
-            <li class="book-reference">"Votre argent compte" par Howard Dayton</li>
-        </ul>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Exemple de graphique de budget
-        const ctx = document.getElementById('budget-chart').getContext('2d');
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Épicerie', 'Loyer', 'Transport', 'Loisirs', 'Épargne'],
-                datasets: [{
-                    data: [30, 35, 15, 10, 10],
-                    backgroundColor: [
-                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                title: {
-                    display: true,
-                    text: 'Répartition du budget mensuel'
+        // Fonction pour créer un graphique circulaire
+        function createPieChart(elementId, labels, data, title) {
+            const ctx = document.getElementById(elementId).getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: title
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        // Fonction pour créer un graphique en ligne
+        function createLineChart(elementId, labels, data, title) {
+            const ctx = document.getElementById(elementId).getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        borderColor: '#36A2EB',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: title
+                    }
+                }
+            });
+        }
+
+        // Créer les graphiques
+        createPieChart('expenses-chart', 
+            ['Épicerie', 'Loyer', 'Transport', 'Loisirs', 'Épargne', 'Autres'], 
+            [30, 35, 15, 10, 5, 5], 
+            'Répartition des dépenses mensuelles'
+        );
+
+        createPieChart('savings-chart',
+            ['Épargne d\'urgence', 'Retraite', 'Objectifs à court terme', 'Investissements'],
+            [40, 30, 20, 10],
+            'Répartition de l\'épargne'
+        );
+
+        createLineChart('debt-reduction-chart',
+            ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+            [10000, 9500, 9000, 8400, 7700, 7000],
+            'Réduction de la dette sur 6 mois'
+        );
+
+        createPieChart('consumption-habits-chart',
+            ['Achats essentiels', 'Achats impulsifs', 'Abonnements', 'Sorties', 'Cadeaux'],
+            [50, 20, 15, 10, 5],
+            'Habitudes de consommation'
+        );
 
         // Animation des cartes au défilement
         function animateCards() {
