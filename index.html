@@ -58,6 +58,32 @@
             color: #666;
             font-size: 0.9em;
         }
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 15px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #0066cc;
+            cursor: pointer;
+        }
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #0066cc;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -82,18 +108,20 @@
     <div class="card">
         <h2>2. Analysez vos dépenses</h2>
         <p>Examinez toutes vos dépenses du dernier mois et catégorisez-les[1]. Voici un exemple de répartition :</p>
-        <div class="chart-container" id="expenses-chart"></div>
+        <div class="chart-container">
+            <canvas id="expenses-chart"></canvas>
+        </div>
         <div class="interactive-element">
             <p>Ajustez vos dépenses :</p>
-            <input type="range" id="groceries-slider" min="0" max="50" value="30">
+            <input type="range" id="groceries-slider" class="slider" min="0" max="50" value="30">
             <label for="groceries-slider">Épicerie: <span id="groceries-value">30</span>%</label><br>
-            <input type="range" id="rent-slider" min="0" max="50" value="35">
+            <input type="range" id="rent-slider" class="slider" min="0" max="50" value="35">
             <label for="rent-slider">Loyer: <span id="rent-value">35</span>%</label><br>
-            <input type="range" id="transport-slider" min="0" max="50" value="15">
+            <input type="range" id="transport-slider" class="slider" min="0" max="50" value="15">
             <label for="transport-slider">Transport: <span id="transport-value">15</span>%</label><br>
-            <input type="range" id="leisure-slider" min="0" max="50" value="10">
+            <input type="range" id="leisure-slider" class="slider" min="0" max="50" value="10">
             <label for="leisure-slider">Loisirs: <span id="leisure-value">10</span>%</label><br>
-            <input type="range" id="savings-slider" min="0" max="50" value="10">
+            <input type="range" id="savings-slider" class="slider" min="0" max="50" value="10">
             <label for="savings-slider">Épargne: <span id="savings-value">10</span>%</label>
         </div>
     </div>
@@ -140,7 +168,9 @@
     <div class="card">
         <h2>5. Remboursez vos dettes rapidement</h2>
         <p>Plus vous prenez de temps pour rembourser, plus les intérêts augmentent. Essayez de payer autant que possible chaque mois[1].</p>
-        <div class="chart-container" id="debt-reduction-chart"></div>
+        <div class="chart-container">
+            <canvas id="debt-reduction-chart"></canvas>
+        </div>
         <div class="interactive-element">
             <p>Simulez votre remboursement de dette :</p>
             <label for="debt-amount">Montant de la dette :</label>
@@ -159,7 +189,7 @@
         <p>Choisissez de dépenser moins que ce que vous gagnez pour économiser plus chaque mois[1].</p>
         <div class="interactive-element">
             <p>Fixez-vous un objectif d'épargne mensuel :</p>
-            <input type="range" id="savings-goal-slider" min="0" max="1000" value="200" step="50">
+            <input type="range" id="savings-goal-slider" class="slider" min="0" max="1000" value="200" step="50">
             <p>Objectif d'épargne : <span id="savings-goal">200</span>€</p>
             <button class="button" onclick="startSavingsChallenge()">Commencer le défi d'épargne</button>
         </div>
@@ -168,7 +198,9 @@
     <div class="card">
         <h2>7. Habitudes de consommation</h2>
         <p>Adoptez des habitudes de consommation minimalistes pour réduire vos dépenses et augmenter vos économies.</p>
-        <div class="chart-container" id="consumption-habits-chart"></div>
+        <div class="chart-container">
+            <canvas id="consumption-habits-chart"></canvas>
+        </div>
         <div class="interactive-element">
             <p>Astuces pour des habitudes de consommation minimalistes :</p>
             <ul>
@@ -292,4 +324,45 @@
         }
 
         // Ajouter des écouteurs d'événements pour les curseurs
-        document.getElementById('groceries-slider').addEventListener('input',
+        document.getElementById('groceries-slider').addEventListener('input', updateExpensesChart);
+        document.getElementById('rent-slider').addEventListener('input', updateExpensesChart);
+        document.getElementById('transport-slider').addEventListener('input', updateExpensesChart);
+        document.getElementById('leisure-slider').addEventListener('input', updateExpensesChart);
+        document.getElementById('savings-slider').addEventListener('input', updateExpensesChart);
+
+        // Fonction pour calculer le remboursement de la dette
+        function calculateDebtPayoff() {
+            const debt = parseFloat(document.getElementById('debt-amount').value);
+            const rate = parseFloat(document.getElementById('interest-rate').value) / 100 / 12;
+            const payment = parseFloat(document.getElementById('payment-amount').value);
+
+            let balance = debt;
+            let months = 0;
+            const balances = [balance];
+
+            while (balance > 0) {
+                balance = balance * (1 + rate) - payment;
+                balances.push(Math.max(0, balance));
+                months++;
+            }
+
+            document.getElementById('debt-result').textContent = `Il vous faudra ${months} mois pour rembourser votre dette.`;
+
+            debtReductionChart.data.labels = Array.from({length: months + 1}, (_, i) => i);
+            debtReductionChart.data.datasets[0].data = balances;
+            debtReductionChart.update();
+        }
+
+        // Fonction pour le défi d'épargne
+        function startSavingsChallenge() {
+            const goal = parseInt(document.getElementById('savings-goal-slider').value);
+            alert(`Défi d'épargne commencé ! Votre objectif est d'économiser ${goal}€ ce mois-ci. Bonne chance !`);
+        }
+
+        // Mise à jour de l'objectif d'épargne
+        document.getElementById('savings-goal-slider').addEventListener('input', function() {
+            document.getElementById('savings-goal').textContent = this.value;
+        });
+    </script>
+</body>
+</html>
