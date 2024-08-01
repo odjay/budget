@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget Minimaliste</title>
+    <title>Budget Minimaliste Interactif</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f0f8ff;
@@ -38,6 +38,30 @@
             height: 300px;
             margin-bottom: 20px;
         }
+        .interactive-element {
+            background-color: #e6f2ff;
+            border: 1px solid #0066cc;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #004c99;
+        }
+        #savings-goal {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+        }
         @media (max-width: 768px) {
             .chart {
                 width: 100%;
@@ -46,42 +70,90 @@
     </style>
 </head>
 <body>
-    <h1>Budget Minimaliste</h1>
+    <h1>Budget Minimaliste Interactif</h1>
     
     <div class="card">
-        <h2>Déterminez vos priorités</h2>
-        <p>Un budget minimaliste vise à simplifier vos finances et à désencombrer vos dettes. Définissez vos priorités pour savoir où allouer vos ressources financières[1].</p>
-    </div>
-
-    <div class="card">
-        <h2>Analysez vos dépenses</h2>
-        <p>Examinez toutes vos dépenses du dernier mois et catégorisez-les. Voici des exemples de répartition :</p>
-        <div class="chart-container">
-            <div class="chart" id="expenses-chart"></div>
-            <div class="chart" id="savings-chart"></div>
+        <h2>1. Déterminez vos priorités</h2>
+        <p>Un budget minimaliste vise à simplifier vos finances et à désencombrer vos dettes. Définissez vos priorités pour savoir où allouer vos ressources financières.</p>
+        <div class="interactive-element">
+            <p>Classez vos priorités financières :</p>
+            <ol id="priorities-list">
+                <li draggable="true">Épargne d'urgence</li>
+                <li draggable="true">Remboursement de dettes</li>
+                <li draggable="true">Investissement</li>
+                <li draggable="true">Voyages</li>
+                <li draggable="true">Loisirs</li>
+            </ol>
         </div>
     </div>
 
     <div class="card">
-        <h2>Automatisez vos paiements</h2>
-        <p>L'automatisation des paiements peut simplifier le remboursement de vos dettes et éviter les pénalités coûteuses[1].</p>
+        <h2>2. Analysez vos dépenses</h2>
+        <p>Examinez toutes vos dépenses du dernier mois et catégorisez-les. Voici un exemple de répartition :</p>
+        <div class="chart-container">
+            <div class="chart" id="expenses-chart"></div>
+        </div>
+        <div class="interactive-element">
+            <p>Ajustez vos dépenses :</p>
+            <input type="range" id="groceries-slider" min="0" max="50" value="30">
+            <label for="groceries-slider">Épicerie: <span id="groceries-value">30</span>%</label><br>
+            <input type="range" id="rent-slider" min="0" max="50" value="35">
+            <label for="rent-slider">Loyer: <span id="rent-value">35</span>%</label><br>
+            <input type="range" id="transport-slider" min="0" max="50" value="15">
+            <label for="transport-slider">Transport: <span id="transport-value">15</span>%</label><br>
+            <input type="range" id="leisure-slider" min="0" max="50" value="10">
+            <label for="leisure-slider">Loisirs: <span id="leisure-value">10</span>%</label><br>
+            <input type="range" id="savings-slider" min="0" max="50" value="10">
+            <label for="savings-slider">Épargne: <span id="savings-value">10</span>%</label>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>3. Automatisez vos paiements</h2>
+        <p>L'automatisation des paiements peut simplifier le remboursement de vos dettes et éviter les pénalités coûteuses.</p>
+        <div class="interactive-element">
+            <p>Simulez l'automatisation de vos paiements :</p>
+            <label for="debt-amount">Montant de la dette :</label>
+            <input type="number" id="debt-amount" value="10000"><br>
+            <label for="interest-rate">Taux d'intérêt annuel (%) :</label>
+            <input type="number" id="interest-rate" value="5"><br>
+            <label for="payment-amount">Paiement mensuel :</label>
+            <input type="number" id="payment-amount" value="500"><br>
+            <button class="button" onclick="calculateDebtPayoff()">Calculer</button>
+            <p id="debt-result"></p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>4. Réfléchissez avant d'acheter</h2>
+        <p>Posez-vous des questions avant chaque achat pour éviter les dépenses impulsives.</p>
+        <div class="interactive-element">
+            <p>Avant d'acheter, demandez-vous :</p>
+            <ul>
+                <li>Est-ce que j'en ai vraiment besoin ?</li>
+                <li>Est-ce que cela s'aligne avec mes priorités ?</li>
+                <li>Puis-je m'en passer ?</li>
+                <li>Y a-t-il une alternative moins chère ?</li>
+            </ul>
+            <p>Exercice : Pensez à un achat récent et répondez à ces questions.</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>5. Remboursez vos dettes rapidement</h2>
+        <p>Plus vous prenez de temps pour rembourser, plus les intérêts augmentent. Essayez de payer autant que possible chaque mois.</p>
         <div class="chart" id="debt-reduction-chart"></div>
     </div>
 
     <div class="card">
-        <h2>Habitudes de consommation</h2>
-        <p>Réfléchissez avant chaque achat pour éviter les dépenses impulsives. Voici un aperçu des habitudes de consommation typiques :</p>
-        <div class="chart" id="consumption-habits-chart"></div>
-    </div>
-
-    <div class="card">
-        <h2>Remboursez vos dettes rapidement</h2>
-        <p>Plus vous prenez de temps pour rembourser, plus les intérêts augmentent. Essayez de payer autant que possible chaque mois[1].</p>
-    </div>
-
-    <div class="card">
-        <h2>Vivez en dessous de vos moyens</h2>
-        <p>Choisissez de dépenser moins que ce que vous gagnez pour économiser plus chaque mois[1].</p>
+        <h2>6. Vivez en dessous de vos moyens</h2>
+        <p>Choisissez de dépenser moins que ce que vous gagnez pour économiser plus chaque mois.</p>
+        <div class="interactive-element">
+            <p>Fixez-vous un objectif d'épargne mensuel :</p>
+            <input type="range" id="savings-goal-slider" min="0" max="1000" value="200" step="50">
+            <p>Objectif d'épargne : <span id="savings-goal">200</span>€</p>
+            <button class="button" onclick="startSavingsChallenge()">Commencer le défi d'épargne</button>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -89,14 +161,14 @@
         // Fonction pour créer un graphique circulaire
         function createPieChart(elementId, labels, data, title) {
             const ctx = document.getElementById(elementId).getContext('2d');
-            new Chart(ctx, {
+            return new Chart(ctx, {
                 type: 'pie',
                 data: {
                     labels: labels,
                     datasets: [{
                         data: data,
                         backgroundColor: [
-                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'
+                            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'
                         ]
                     }]
                 },
@@ -113,7 +185,7 @@
         // Fonction pour créer un graphique en ligne
         function createLineChart(elementId, labels, data, title) {
             const ctx = document.getElementById(elementId).getContext('2d');
-            new Chart(ctx, {
+            return new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -134,46 +206,119 @@
             });
         }
 
-        // Créer les graphiques
-        createPieChart('expenses-chart', 
-            ['Épicerie', 'Loyer', 'Transport', 'Loisirs', 'Épargne', 'Autres'], 
-            [30, 35, 15, 10, 5, 5], 
+        // Créer les graphiques initiaux
+        let expensesChart = createPieChart('expenses-chart', 
+            ['Épicerie', 'Loyer', 'Transport', 'Loisirs', 'Épargne'], 
+            [30, 35, 15, 10, 10], 
             'Répartition des dépenses mensuelles'
         );
 
-        createPieChart('savings-chart',
-            ['Épargne d\'urgence', 'Retraite', 'Objectifs à court terme', 'Investissements'],
-            [40, 30, 20, 10],
-            'Répartition de l\'épargne'
-        );
-
-        createLineChart('debt-reduction-chart',
+        let debtReductionChart = createLineChart('debt-reduction-chart',
             ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
             [10000, 9500, 9000, 8400, 7700, 7000],
             'Réduction de la dette sur 6 mois'
         );
 
-        createPieChart('consumption-habits-chart',
-            ['Achats essentiels', 'Achats impulsifs', 'Abonnements', 'Sorties', 'Cadeaux'],
-            [50, 20, 15, 10, 5],
-            'Habitudes de consommation'
-        );
+        // Fonction pour mettre à jour le graphique des dépenses
+        function updateExpensesChart() {
+            const groceries = parseInt(document.getElementById('groceries-slider').value);
+            const rent = parseInt(document.getElementById('rent-slider').value);
+            const transport = parseInt(document.getElementById('transport-slider').value);
+            const leisure = parseInt(document.getElementById('leisure-slider').value);
+            const savings = parseInt(document.getElementById('savings-slider').value);
 
-        // Animation des cartes au défilement
-        function animateCards() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const cardTop = card.getBoundingClientRect().top;
-                const screenHeight = window.innerHeight;
-                if (cardTop < screenHeight) {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }
+            expensesChart.data.datasets[0].data = [groceries, rent, transport, leisure, savings];
+            expensesChart.update();
+
+            document.getElementById('groceries-value').textContent = groceries;
+            document.getElementById('rent-value').textContent = rent;
+            document.getElementById('transport-value').textContent = transport;
+            document.getElementById('leisure-value').textContent = leisure;
+            document.getElementById('savings-value').textContent = savings;
+        }
+
+        // Ajouter des écouteurs d'événements pour les curseurs
+        document.getElementById('groceries-slider').addEventListener('input', updateExpensesChart);
+        document.getElementById('rent-slider').addEventListener('input', updateExpensesChart);
+        document.getElementById('transport-slider').addEventListener('input', updateExpensesChart);
+        document.getElementById('leisure-slider').addEventListener('input', updateExpensesChart);
+        document.getElementById('savings-slider').addEventListener('input', updateExpensesChart);
+
+        // Fonction pour calculer le remboursement de la dette
+        function calculateDebtPayoff() {
+            const debt = parseFloat(document.getElementById('debt-amount').value);
+            const rate = parseFloat(document.getElementById('interest-rate').value) / 100 / 12;
+            const payment = parseFloat(document.getElementById('payment-amount').value);
+
+            let balance = debt;
+            let months = 0;
+            const balances = [balance];
+
+            while (balance > 0) {
+                balance = balance * (1 + rate) - payment;
+                balances.push(Math.max(0, balance));
+                months++;
+            }
+
+            document.getElementById('debt-result').textContent = `Il vous faudra ${months} mois pour rembourser votre dette.`;
+
+            debtReductionChart.data.labels = Array.from({length: months + 1}, (_, i) => i);
+            debtReductionChart.data.datasets[0].data = balances;
+            debtReductionChart.update();
+        }
+
+        // Fonction pour le défi d'épargne
+        function startSavingsChallenge() {
+            const goal = parseInt(document.getElementById('savings-goal-slider').value);
+            alert(`Défi d'épargne commencé ! Votre objectif est d'économiser ${goal}€ ce mois-ci. Bonne chance !`);
+        }
+
+        // Mise à jour de l'objectif d'épargne
+        document.getElementById('savings-goal-slider').addEventListener('input', function() {
+            document.getElementById('savings-goal').textContent = this.value;
+        });
+
+        // Fonction pour rendre les éléments de la liste de priorités glissables
+        function enableDragSort(listId) {
+            const list = document.getElementById(listId);
+            const items = list.getElementsByTagName("li");
+
+            Array.prototype.forEach.call(items, function(item) {
+                item.draggable = true;
+                item.addEventListener('dragstart', handleDragStart, false);
+                item.addEventListener('dragover', handleDragOver, false);
+                item.addEventListener('drop', handleDrop, false);
             });
         }
 
-        window.addEventListener('scroll', animateCards);
-        animateCards(); // Appel initial pour animer les cartes visibles au chargement
+        function handleDragStart(e) {
+            this.style.opacity = '0.4';
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            if (dragSrcEl != this) {
+                dragSrcEl.innerHTML = this.innerHTML;
+                this.innerHTML = e.dataTransfer.getData('text/html');
+            }
+            return false;
+        }
+
+        // Activer le glisser-déposer pour la liste des priorités
+        enableDragSort('priorities-list');
     </script>
 </body>
 </html>
