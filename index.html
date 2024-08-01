@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget Minimaliste Interactif</title>
+    <title>Guide Complet du Budget Minimaliste</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -30,13 +30,8 @@
             box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15);
         }
         .chart-container {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        .chart {
-            width: 48%;
-            height: 300px;
+            width: 100%;
+            height: 400px;
             margin-bottom: 20px;
         }
         .interactive-element {
@@ -58,32 +53,36 @@
         .button:hover {
             background-color: #004c99;
         }
-        #savings-goal {
-            font-size: 24px;
-            font-weight: bold;
-            color: #0066cc;
-        }
-        @media (max-width: 768px) {
-            .chart {
-                width: 100%;
-            }
+        .reference {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
-    <h1>Budget Minimaliste Interactif</h1>
+    <h1>Guide Complet du Budget Minimaliste</h1>
     
     <div class="card">
         <h2>1. Déterminez vos priorités</h2>
-        <p>Un budget minimaliste vise à simplifier vos finances et à désencombrer vos dettes. Définissez vos priorités pour savoir où allouer vos ressources financières.</p>
+        <p>Un budget minimaliste vise à simplifier vos finances et à désencombrer vos dettes. Définissez vos priorités pour savoir où allouer vos ressources financières[1].</p>
+        <div class="interactive-element">
+            <p>Exercice : Classez vos priorités financières de 1 (le plus important) à 5 (le moins important) :</p>
+            <ul id="priorities-list">
+                <li>Épargne d'urgence</li>
+                <li>Remboursement de dettes</li>
+                <li>Investissement</li>
+                <li>Voyages</li>
+                <li>Loisirs</li>
+            </ul>
+            <button class="button" onclick="savePriorities()">Enregistrer mes priorités</button>
+        </div>
     </div>
 
     <div class="card">
         <h2>2. Analysez vos dépenses</h2>
-        <p>Examinez toutes vos dépenses du dernier mois et catégorisez-les. Voici un exemple de répartition :</p>
-        <div class="chart-container">
-            <canvas class="chart" id="expenses-chart"></canvas>
-        </div>
+        <p>Examinez toutes vos dépenses du dernier mois et catégorisez-les[1]. Voici un exemple de répartition :</p>
+        <div class="chart-container" id="expenses-chart"></div>
         <div class="interactive-element">
             <p>Ajustez vos dépenses :</p>
             <input type="range" id="groceries-slider" min="0" max="50" value="30">
@@ -101,9 +100,49 @@
 
     <div class="card">
         <h2>3. Automatisez vos paiements</h2>
-        <p>L'automatisation des paiements peut simplifier le remboursement de vos dettes et éviter les pénalités coûteuses.</p>
+        <p>L'automatisation des paiements peut simplifier le remboursement de vos dettes et éviter les pénalités coûteuses[1].</p>
         <div class="interactive-element">
-            <p>Simulez l'automatisation de vos paiements :</p>
+            <p>Exemple concret : Si vous avez une dette de carte de crédit de 5000€ avec un taux d'intérêt de 18% par an, voici comment l'automatisation peut vous aider :</p>
+            <ul>
+                <li>Paiement minimum mensuel : 100€</li>
+                <li>Temps pour rembourser : 93 mois (7,75 ans)</li>
+                <li>Intérêts totaux payés : 4311€</li>
+            </ul>
+            <p>Avec un paiement automatique de 200€ par mois :</p>
+            <ul>
+                <li>Temps pour rembourser : 31 mois (2,58 ans)</li>
+                <li>Intérêts totaux payés : 1274€</li>
+            </ul>
+            <p>Économies réalisées : 3037€ et 5,17 ans !</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>4. Réfléchissez avant d'acheter</h2>
+        <p>Posez-vous des questions avant chaque achat pour éviter les dépenses impulsives[1].</p>
+        <div class="interactive-element">
+            <p>Questions à se poser avant un achat :</p>
+            <ul>
+                <li>Est-ce que j'en ai vraiment besoin ?</li>
+                <li>Est-ce que cela s'aligne avec mes priorités ?</li>
+                <li>Puis-je m'en passer ?</li>
+                <li>Y a-t-il une alternative moins chère ?</li>
+            </ul>
+            <p>Exemple concret : Achat d'un nouveau smartphone à 800€</p>
+            <ul>
+                <li>Besoin réel : Communication et accès à internet</li>
+                <li>Alternative : Réparer l'ancien téléphone pour 150€</li>
+                <li>Économie potentielle : 650€</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>5. Remboursez vos dettes rapidement</h2>
+        <p>Plus vous prenez de temps pour rembourser, plus les intérêts augmentent. Essayez de payer autant que possible chaque mois[1].</p>
+        <div class="chart-container" id="debt-reduction-chart"></div>
+        <div class="interactive-element">
+            <p>Simulez votre remboursement de dette :</p>
             <label for="debt-amount">Montant de la dette :</label>
             <input type="number" id="debt-amount" value="10000"><br>
             <label for="interest-rate">Taux d'intérêt annuel (%) :</label>
@@ -116,37 +155,53 @@
     </div>
 
     <div class="card">
-        <h2>4. Réfléchissez avant d'acheter</h2>
-        <p>Posez-vous des questions avant chaque achat pour éviter les dépenses impulsives.</p>
-        <div class="interactive-element">
-            <p>Avant d'acheter, demandez-vous :</p>
-            <ul>
-                <li>Est-ce que j'en ai vraiment besoin ?</li>
-                <li>Est-ce que cela s'aligne avec mes priorités ?</li>
-                <li>Puis-je m'en passer ?</li>
-                <li>Y a-t-il une alternative moins chère ?</li>
-            </ul>
-            <p>Exercice : Pensez à un achat récent et répondez à ces questions.</p>
-        </div>
-    </div>
-
-    <div class="card">
-        <h2>5. Remboursez vos dettes rapidement</h2>
-        <p>Plus vous prenez de temps pour rembourser, plus les intérêts augmentent. Essayez de payer autant que possible chaque mois.</p>
-        <div class="chart-container">
-            <canvas class="chart" id="debt-reduction-chart"></canvas>
-        </div>
-    </div>
-
-    <div class="card">
         <h2>6. Vivez en dessous de vos moyens</h2>
-        <p>Choisissez de dépenser moins que ce que vous gagnez pour économiser plus chaque mois.</p>
+        <p>Choisissez de dépenser moins que ce que vous gagnez pour économiser plus chaque mois[1].</p>
         <div class="interactive-element">
             <p>Fixez-vous un objectif d'épargne mensuel :</p>
             <input type="range" id="savings-goal-slider" min="0" max="1000" value="200" step="50">
             <p>Objectif d'épargne : <span id="savings-goal">200</span>€</p>
             <button class="button" onclick="startSavingsChallenge()">Commencer le défi d'épargne</button>
         </div>
+    </div>
+
+    <div class="card">
+        <h2>7. Habitudes de consommation</h2>
+        <p>Adoptez des habitudes de consommation minimalistes pour réduire vos dépenses et augmenter vos économies.</p>
+        <div class="chart-container" id="consumption-habits-chart"></div>
+        <div class="interactive-element">
+            <p>Astuces pour des habitudes de consommation minimalistes :</p>
+            <ul>
+                <li>Faites une liste avant d'aller faire les courses</li>
+                <li>Attendez 24h avant de faire un achat important</li>
+                <li>Privilégiez la qualité à la quantité</li>
+                <li>Optez pour des activités gratuites ou peu coûteuses</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>8. Cartes de crédit et paiements automatiques</h2>
+        <p>Utilisez les cartes de crédit de manière responsable et mettez en place des paiements automatiques pour éviter les frais de retard.</p>
+        <div class="interactive-element">
+            <p>Exemple concret : Utilisation stratégique d'une carte de crédit</p>
+            <ul>
+                <li>Carte avec 2% de cashback sur tous les achats</li>
+                <li>Dépenses mensuelles moyennes : 1500€</li>
+                <li>Cashback annuel : 1500€ * 2% * 12 mois = 360€</li>
+                <li>Condition : Payer intégralement le solde chaque mois pour éviter les intérêts</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Références et Ressources</h2>
+        <ul>
+            <li class="reference">[1] "Your Money or Your Life" par Vicki Robin et Joe Dominguez</li>
+            <li class="reference">"The Simple Path to Wealth" par JL Collins</li>
+            <li class="reference">"The Minimalist Budget" par Simeon Lindstrom</li>
+            <li class="reference">"The Total Money Makeover" par Dave Ramsey</li>
+        </ul>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -212,6 +267,12 @@
             'Réduction de la dette sur 6 mois'
         );
 
+        let consumptionHabitsChart = createPieChart('consumption-habits-chart',
+            ['Essentiels', 'Confort', 'Luxe', 'Épargne'],
+            [50, 30, 10, 10],
+            'Habitudes de consommation'
+        );
+
         // Fonction pour mettre à jour le graphique des dépenses
         function updateExpensesChart() {
             const groceries = parseInt(document.getElementById('groceries-slider').value);
@@ -231,45 +292,4 @@
         }
 
         // Ajouter des écouteurs d'événements pour les curseurs
-        document.getElementById('groceries-slider').addEventListener('input', updateExpensesChart);
-        document.getElementById('rent-slider').addEventListener('input', updateExpensesChart);
-        document.getElementById('transport-slider').addEventListener('input', updateExpensesChart);
-        document.getElementById('leisure-slider').addEventListener('input', updateExpensesChart);
-        document.getElementById('savings-slider').addEventListener('input', updateExpensesChart);
-
-        // Fonction pour calculer le remboursement de la dette
-        function calculateDebtPayoff() {
-            const debt = parseFloat(document.getElementById('debt-amount').value);
-            const rate = parseFloat(document.getElementById('interest-rate').value) / 100 / 12;
-            const payment = parseFloat(document.getElementById('payment-amount').value);
-
-            let balance = debt;
-            let months = 0;
-            const balances = [balance];
-
-            while (balance > 0) {
-                balance = balance * (1 + rate) - payment;
-                balances.push(Math.max(0, balance));
-                months++;
-            }
-
-            document.getElementById('debt-result').textContent = `Il vous faudra ${months} mois pour rembourser votre dette.`;
-
-            debtReductionChart.data.labels = Array.from({length: months + 1}, (_, i) => i);
-            debtReductionChart.data.datasets[0].data = balances;
-            debtReductionChart.update();
-        }
-
-        // Fonction pour le défi d'épargne
-        function startSavingsChallenge() {
-            const goal = parseInt(document.getElementById('savings-goal-slider').value);
-            alert(`Défi d'épargne commencé ! Votre objectif est d'économiser ${goal}€ ce mois-ci. Bonne chance !`);
-        }
-
-        // Mise à jour de l'objectif d'épargne
-        document.getElementById('savings-goal-slider').addEventListener('input', function() {
-            document.getElementById('savings-goal').textContent = this.value;
-        });
-    </script>
-</body>
-</html>
+        document.getElementById('groceries-slider').addEventListener('input',
