@@ -23,10 +23,11 @@
             padding: 20px;
             margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15);
         }
         .chart-container {
             display: flex;
@@ -75,23 +76,13 @@
     <div class="card">
         <h2>1. Déterminez vos priorités</h2>
         <p>Un budget minimaliste vise à simplifier vos finances et à désencombrer vos dettes. Définissez vos priorités pour savoir où allouer vos ressources financières.</p>
-        <div class="interactive-element">
-            <p>Classez vos priorités financières :</p>
-            <ol id="priorities-list">
-                <li draggable="true">Épargne d'urgence</li>
-                <li draggable="true">Remboursement de dettes</li>
-                <li draggable="true">Investissement</li>
-                <li draggable="true">Voyages</li>
-                <li draggable="true">Loisirs</li>
-            </ol>
-        </div>
     </div>
 
     <div class="card">
         <h2>2. Analysez vos dépenses</h2>
         <p>Examinez toutes vos dépenses du dernier mois et catégorisez-les. Voici un exemple de répartition :</p>
         <div class="chart-container">
-            <div class="chart" id="expenses-chart"></div>
+            <canvas class="chart" id="expenses-chart"></canvas>
         </div>
         <div class="interactive-element">
             <p>Ajustez vos dépenses :</p>
@@ -142,7 +133,9 @@
     <div class="card">
         <h2>5. Remboursez vos dettes rapidement</h2>
         <p>Plus vous prenez de temps pour rembourser, plus les intérêts augmentent. Essayez de payer autant que possible chaque mois.</p>
-        <div class="chart" id="debt-reduction-chart"></div>
+        <div class="chart-container">
+            <canvas class="chart" id="debt-reduction-chart"></canvas>
+        </div>
     </div>
 
     <div class="card">
@@ -277,48 +270,6 @@
         document.getElementById('savings-goal-slider').addEventListener('input', function() {
             document.getElementById('savings-goal').textContent = this.value;
         });
-
-        // Fonction pour rendre les éléments de la liste de priorités glissables
-        function enableDragSort(listId) {
-            const list = document.getElementById(listId);
-            const items = list.getElementsByTagName("li");
-
-            Array.prototype.forEach.call(items, function(item) {
-                item.draggable = true;
-                item.addEventListener('dragstart', handleDragStart, false);
-                item.addEventListener('dragover', handleDragOver, false);
-                item.addEventListener('drop', handleDrop, false);
-            });
-        }
-
-        function handleDragStart(e) {
-            this.style.opacity = '0.4';
-            dragSrcEl = this;
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', this.innerHTML);
-        }
-
-        function handleDragOver(e) {
-            if (e.preventDefault) {
-                e.preventDefault();
-            }
-            e.dataTransfer.dropEffect = 'move';
-            return false;
-        }
-
-        function handleDrop(e) {
-            if (e.stopPropagation) {
-                e.stopPropagation();
-            }
-            if (dragSrcEl != this) {
-                dragSrcEl.innerHTML = this.innerHTML;
-                this.innerHTML = e.dataTransfer.getData('text/html');
-            }
-            return false;
-        }
-
-        // Activer le glisser-déposer pour la liste des priorités
-        enableDragSort('priorities-list');
     </script>
 </body>
 </html>
